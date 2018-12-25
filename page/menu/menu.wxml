@@ -1,0 +1,54 @@
+<text>pages/menu/menu.wxml</text>
+
+<template name="menuTemplate" >
+  <view class="weui-cell">
+    <view class="weui-cell__hd">
+        <image class="menu-img" src="http://134.175.97.167:9090{{dishPhoto}}" ></image>
+    </view>
+    <view class="weui-cell__bd">
+        <view class="foodname">{{dishName}}</view>
+        <view class="fooddescription">{{dishIntroduction}}</view>                        
+    </view>
+    <view class="weui-cell__right">
+      <view class="foodprice">￥{{dishPrice}}</view>
+      <image class='addbutton' src="../../images/add.png" data-index="{{index}}" id="{{index}}"       bindtap='addDish'></image>
+    </view>
+  </view>
+</template>
+
+<view class="page">
+  <view class="weui-navbar">
+    <view class="weui-navbar__item weui-bar__item_on">
+      <view class="weui-navbar__title">菜单</view>
+    </view>
+    <view class="weui-navbar__item">
+      <view class="weui-navbar__title" bindtap="to_comment00">评价</view>
+    </view>
+  </view>  
+  <scroll-view class="weui-cellset" scroll-y="true">
+    <view wx:for="{{menu}}" wx:key="menu_block">
+      <template is="menuTemplate" data="{{...item}}"/>
+    </view>                         
+  </scroll-view>
+  <view class="cart-detail" hidden="{{!showCartDetail||!totalNum}}">
+		  <view class="mask" bindtap="hideCartDetail"></view>	
+      <view class="cart-list">
+        <view class="item" wx:for="{{menu}}" wx:for-index="index" wx:if="{{menu[index].num!=0}}" wx:key="index">
+            <view class="name ellipsis">{{menu[index].dishName}}</view>
+            <view class="total">￥{{menu[index].dishPrice}}</view>
+            <view class="minus-btn" data-index="{{index}}" bindtap="tapMinusCart">-</view>
+            <view class="num">{{menu[index].num}}</view>
+            <view class="add-btn" data-index="{{index}}" bindtap="tapAddCart">+</view>
+        </view>
+      </view>
+	</view>
+  <view class="bar">
+    <view class="cart" bindtap="showCartDetail">
+      <image src="../../images/cart.png" style="width: 100rpx; height: 100rpx;">
+        <span class="cart-num" wx:if="{{totalNum!=0}}">{{totalNum}}</span>
+      </image>
+      <view class='totalprice'>共计 ￥{{totalPrice}}</view>
+    </view>
+    <button class="submitbutton" type='primary' bindtap="to_submit">提交订单</button>
+  </view>
+</view>

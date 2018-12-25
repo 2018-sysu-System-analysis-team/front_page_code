@@ -1,0 +1,7 @@
+
+<!--index.wxml-->
+<view class="container">
+  <text class="welcome">中大小食欢迎你！</text>
+  <image class="img" src="../../images/logo.png" ></image>
+  <button class="comfirm-button" type='primary' bindtap="to_menu">扫码点餐</button>
+</view>

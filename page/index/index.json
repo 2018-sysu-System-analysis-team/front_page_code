@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fbc",
+    "navigationBarTitleText": "中大小食",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#eeeeeee"
+  }
+}
