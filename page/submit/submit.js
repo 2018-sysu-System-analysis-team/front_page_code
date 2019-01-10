@@ -1,5 +1,23 @@
 // pages/pay/pay.js
 Page({
+  data: {
+      orderItems:[],
+      totalPrice:0,
+      totalNum:0,
+      UserId: '2', //wx.getStorageSync('UserId')
+    },
+
+
+  onLoad: function () {
+    var that=this
+    that.setData({
+      orderItems: wx.getStorageSync('data'),
+      totalPrice: wx.getStorageSync('totalPrice'),
+      totalNum: wx.getStorageSync('totalNum')
+    })
+    //console.log(that.data.totalPrice)
+  },
+
   
   to_pay: function () {
     wx.request({
@@ -7,24 +25,28 @@ Page({
       data: {
         "state": 0,
         "payment": this.totalPrice,
-        "orderItems": this.orderItems 
+        "orderItems": this.orderItems
       },
       method: 'POST',
       header: {},
-      success: function (){
+      success: function () {
+        //console.log(res)
+        wx.setStorageSync('orderId', res["orderId"])
+        wx.setStorageSync('payment', res["payment"])
+        wx.setStorageSync('orderItems', res["orderItems"])
+
         wx.navigateTo({
           url: '../pay/pay'
+        })
+      },
+      fail: function () {
+        wx.navigateTo({
+          url: '../pay/pay',
         })
       }
     })
   },
 
-  onLoad: function () {
-    this.setData({
-      orderItems: wx.getStorageSync('data'),
-      totalPrice: wx.getStorageSync('totalPrice'),
-      totalNum: wx.getStorageSync('totalNum'),
-      UserId: '2', //wx.getStorageSync('UserId')
-    })
-  },
+
+
 })
