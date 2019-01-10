@@ -1,60 +1,44 @@
 // pages/pay/pay.js
 Page({
 
-  /**
-   * Page initial data
-   */
   data: {
-
+    totalPrice:"30",
   },
 
-  /**
-   * Lifecycle function--Called when page load
-   */
   onLoad: function (options) {
+    var that=this
+    that.setData({
+      totalPrice: wx.getStorageSync('totalPrice'),
+    })
+    var state = 1
+    wx.showModal({
+      title: '确认支付',
+      content: "共计"+this.data.totalPrice+"元",
+      success: function (res) {
+        if(res.confirm == 0) {
+          wx.navigateTo({
+            url: '../submit/submit',
+          })
+          console.log('用户取消支付')
+        }
+        else{
+          state = 1 
+          console.log('用户确认支付')
+        }
+      }
+    })
 
-  },
-
-  /**
-   * Lifecycle function--Called when page is initially rendered
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * Lifecycle function--Called when page show
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * Lifecycle function--Called when page hide
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * Lifecycle function--Called when page unload
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * Page event handler function--Called when user drop down
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * Called when page reach bottom
-   */
-  onReachBottom: function () {
-
+    wx.request({
+      url: 'http://134.175.97.167:9090/api/Orders/2',//
+      data: {
+        "orderId": wx.getStorageSync('orderId'),
+        "state": state,
+        "payment": wx.getStorageSync('payment'),
+        "orderItems": wx.getStorageSync('orderItems')
+      },
+      method: 'put',
+      header: {},
+    })
   },
 
   /**
